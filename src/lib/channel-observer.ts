@@ -57,7 +57,7 @@ export const notify = async ({ body }: FreeSwitchEventData) => {
     console.log('Channel answered', uuid, callDirection);
     if (callDirection === 'outbound' && !SafeNumbers.includes(calleeNumber)) {
       // check information
-      const custom = await getCallData(uuid); // get CallInfo;
+      const custom = await getCallData(uuid); // get CallInfo;m)
       if (custom?.status) {
         CallDatas[uuid] = {
           isPackage: !!custom?.packageId,
@@ -91,7 +91,6 @@ export const notify = async ({ body }: FreeSwitchEventData) => {
     const callDirection = body['Call-Direction'];
     const time = body['variable_billsec'] as string;
     console.log('Channel hangup completed', uuid, callDirection);
-
     if (CallDatas[uuid]) {
       const old = { ...CallDatas[uuid] };
       delete CallDatas[uuid];

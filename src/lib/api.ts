@@ -1,6 +1,6 @@
 import Axios, { AxiosResponse } from 'axios';
 
-Axios.defaults.baseURL = "https://concertlive/freeswitch";
+Axios.defaults.baseURL = "https://aa31-160-154-28-88.ngrok-free.app/api/freeswitch";
 
 type checkcCallVerifType = {
     status: boolean;
@@ -26,7 +26,6 @@ type getCallDataType = {
 export  const checkCallVerif = async (uuid: string,calleeNumber:string,password:string): Promise<checkcCallVerifType> => {
     try {
         const request: AxiosResponse<checkcCallVerifType>= await Axios.post('/checkCallVerif',{uuid,calleeNumber,password});
-        console.log("check call verif: ", request?.data);
         return request?.data;
     }catch(err){
         console.log("check call verif error: ", err?.message);
@@ -36,8 +35,7 @@ export  const checkCallVerif = async (uuid: string,calleeNumber:string,password:
 export const createCall = async ({customerId,callID,offerId,packageId,calleeNumber,calleeName}:Record<string,any>) => {
     try {
         const request:AxiosResponse = await Axios.post('/createCall',{customerId,callID,offerId,packageId,calleeNumber,calleeName});
-        console.log("create call : ", request?.data)
-        return true;
+        return request;
     }catch(err){
         console.log("create call error: ", err?.message);
     }
@@ -46,7 +44,6 @@ export const createCall = async ({customerId,callID,offerId,packageId,calleeNumb
 export const getCallData= async (uuid:string): Promise<getCallDataType> => {
     try {
         const request: AxiosResponse<getCallDataType> = await Axios.get('/getCallData/'+uuid);
-        console.log("get call data: ", request?.data)
         return request?.data;
     }catch(err){
         console.log("get call data error: ", err?.message);
@@ -56,8 +53,7 @@ export const getCallData= async (uuid:string): Promise<getCallDataType> => {
 export const delCallVerif= async (uuid:string,hangupCause:string) => {
     try {
         const request: AxiosResponse= await Axios.post('/delCallVerif',{uuid,hangupCause});
-        console.log("del call verif: ", request?.data);
-        return true;
+        return request;
     }catch(err){
         console.log("del call verif error: ", err?.message);
     }
@@ -66,8 +62,7 @@ export const delCallVerif= async (uuid:string,hangupCause:string) => {
 export const deduceFounds= async (data:Record<string,any>) => {
     try {
         const request:AxiosResponse = await Axios.post('/deduceFounds',{...data});
-        console.log("deduce founds: ", request?.data)
-        return true;
+        return request;
     }catch(err){
         console.log("deduce founds error: ", err?.message);
     }

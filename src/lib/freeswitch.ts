@@ -3,7 +3,7 @@ import { FreeSwitchClient, FreeSwitchResponse, once } from 'esl';
 const client: FreeSwitchClient = new FreeSwitchClient({
     host: "127.0.0.1",
     port: 8021,
-    password: "!DevEslCluecon",
+    password: "!Dev_ESLClueCon",
     logger: {
       debug: () => {},
       info: (...args) => console.info(...args),
@@ -40,6 +40,16 @@ export const connect = () => {
 };
 
 export const fs_command = async (cmd: string) => {
+  const client: FreeSwitchClient = new FreeSwitchClient({
+    host: "127.0.0.1",
+    port: 8021,
+    password: "!Dev_ESLClueCon",
+    logger: {
+      debug: () => {},
+      info: (...args) => console.info(...args),
+      error: (...args) => console.error(...args),
+    },
+  });
   console.log('executing commande : ', cmd);
   const p = once(client, 'connect');
   client.connect();
