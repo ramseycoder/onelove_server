@@ -1,6 +1,6 @@
 import Axios, { AxiosResponse } from 'axios';
 
-Axios.defaults.baseURL = "https://concertlive";
+Axios.defaults.baseURL = "https://concertlive/freeswitch";
 
 type checkcCallVerifType = {
     status: boolean;

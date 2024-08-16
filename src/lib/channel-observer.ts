@@ -81,7 +81,7 @@ export const notify = async ({ body }: FreeSwitchEventData) => {
     const hangupCause = body['Hangup-Cause'];
     console.log('Channel hangup', uuid, callDirection, hangupCause);
     if (callDirection === 'inbound' && !SafeNumbers.includes(calleeNumber)) {
-      await delCallVerif(uuid,hangupCause);
+      return  await delCallVerif(uuid,hangupCause);
     }
   }
 
@@ -96,44 +96,11 @@ export const notify = async ({ body }: FreeSwitchEventData) => {
       const old = { ...CallDatas[uuid] };
       delete CallDatas[uuid];
       const billSec = parseFloat(time);
-    await deduceFounds({
+      return  await deduceFounds({
         ...old,
-        uuid,
+        callID:uuid,
         time: billSec,
       });
-    //   console.log('end call: ', result);
-    //   _callSocket.sockets.forEach((client) => {
-    //     if (client.session.id === result.customerId) {
-    //       return client.emit('callEnd', {
-    //         ...result,
-    //         callID: uuid,
-    //         time: formatTime(billSec),
-    //         customerId: undefined,
-    //         seconds: undefined,
-    //       });
-    //     }
-    //   });
-    //   const history = await getCallHistory(uuid);
-    //   if (history) {
-    //     _globalSocket.sockets.forEach(async (client) => {
-    //       console.log('send history to global', client.session.id);
-    //       if (client.session.id === history?.customerId) {
-    //         return client.emit('history', {
-    //           ...history,
-    //           customerId: undefined,
-    //         });
-    //       }
-    //     });
-    //     _callSocket.sockets.forEach(async (client) => {
-    //       if (client.session.id === history?.customerId) {
-    //         console.log('send history to call', client.session.id);
-    //         return client.emit('history', {
-    //           ...history,
-    //           customerId: undefined,
-    //         });
-    //       }
-    //     });
-    //   }
     }
   }
 };
