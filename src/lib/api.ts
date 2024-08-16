@@ -1,6 +1,6 @@
 import Axios, { AxiosResponse } from 'axios';
-
-Axios.defaults.baseURL = "https://aa31-160-154-28-88.ngrok-free.app/api/freeswitch";
+const inProd = false;
+Axios.defaults.baseURL =  inProd ? "https://dev-onelove-alcall.net" : "https://aa31-160-154-28-88.ngrok-free.app/api/freeswitch";
 
 type checkcCallVerifType = {
     status: boolean;
