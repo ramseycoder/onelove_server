@@ -1,8 +1,9 @@
 import http from 'node:http';
-import { FreeSwitchServer } from 'esl'
+import { startJob } from './lib/event-socket-monitor';
 
- const call = async () => {
-    const server = new FreeSwitchServer();
-    await server.listen({port:7000,host:"51.91.97.8"})
- }
- call()
+const server = http.createServer();
+
+server.listen(5000,() => {
+   console.log('listenning to port 5000');
+   startJob();
+})
