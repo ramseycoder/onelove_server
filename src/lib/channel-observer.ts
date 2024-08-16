@@ -34,7 +34,7 @@ export const notify = async ({ body }: FreeSwitchEventData) => {
 
           if (callDirection === 'inbound' && !SafeNumbers.includes(calleeNumber)) {
             const req = await checkCallVerif(uuid, calleeNumber, password);
-            if (!req.status) {
+            if (!req?.status) {
               fs_command(`uuid_kill ${uuid} '${req.reason}'`);
             } else {
               // create call
