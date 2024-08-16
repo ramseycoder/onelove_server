@@ -43,7 +43,7 @@ export const fs_command = async (cmd: string) => {
   const client: FreeSwitchClient = new FreeSwitchClient({
     host: "127.0.0.1",
     port: 8021,
-    password: "!Dev_ESLClueCon",
+    password: "!Prod_ESLClueCon",
     logger: {
       debug: () => {},
       info: (...args) => console.info(...args),
