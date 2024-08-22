@@ -2,7 +2,7 @@ import Axios, { AxiosResponse } from 'axios';
 const inProd = false;
 // password;
 let key = "09227f15666587269dc9ef2aeac4a40b24c12b84178841d996df1f13c3beef4b628ea4cbf2d624727c0f0b021d39eae83c62b0e667c279bfd36c062ec5331c92"
-Axios.defaults.baseURL =  inProd ? "https://dev-onelove-alcall.net" : "https://aa31-160-154-28-88.ngrok-free.app/api/freeswitch";
+Axios.defaults.baseURL =  inProd ? "https://onelove-alcall.net" : "https://aa31-160-154-28-88.ngrok-free.app/api/freeswitch";
 Axios.defaults.headers.common["Authorization"] =  key;
 
 type checkcCallVerifType = {
