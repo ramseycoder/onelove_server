@@ -81,7 +81,7 @@ export const notify = async ({ body }: FreeSwitchEventData) => {
           const calleeNumber = body['Caller-Destination-Number'] as string;
           const hangupCause = body['Hangup-Cause'];
           console.log('Channel hangup', uuid, callDirection, hangupCause);
-          if (callDirection === 'inbound' && !SafeNumbers.includes(calleeNumber)) {
+          if (callDirection === 'inbound' && !SafeNumbers.includes(calleeNumber && CallDatas[uuid])) {
             return  await delCallVerif(uuid,hangupCause);
           }
         }
