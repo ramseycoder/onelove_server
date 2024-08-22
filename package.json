@@ -23,7 +23,6 @@
   "dependencies": {
     "@types/node": "^22.1.0",
     "axios": "^1.7.3",
-    "esl": "^11.2.1",
-    "socket.io-client": "^4.7.5"
+    "esl": "^11.2.1"
   }
 }
