@@ -1,5 +1,6 @@
 import Axios, { AxiosResponse } from 'axios';
-const inProd = false;
+import { logger } from '../utils/logger';
+const inProd = true;
 // password;
 let key = "09227f15666587269dc9ef2aeac4a40b24c12b84178841d996df1f13c3beef4b628ea4cbf2d624727c0f0b021d39eae83c62b0e667c279bfd36c062ec5331c92"
 Axios.defaults.baseURL = ( inProd ? "https://dev-onelove.alcall.net" : "https://8a94-160-154-28-88.ngrok-free.app")+"/api/freeswitch";
@@ -31,7 +32,7 @@ export  const checkCallVerif = async (uuid: string,calleeNumber:string,password:
         const request: AxiosResponse<checkcCallVerifType>= await Axios.post('/checkCallVerif',{uuid,calleeNumber,password});
         return request?.data;
     }catch(err){
-        console.log("check call verif error: ", err?.message);
+        logger.error("check call verif error", err?.message);
     }
 }
 
@@ -40,7 +41,7 @@ export const createCall = async ({customerId,callID,offerId,packageId,calleeNumb
         const request:AxiosResponse = await Axios.post('/createCall',{customerId,callID,offerId,packageId,calleeNumber,calleeName});
         return request;
     }catch(err){
-        console.log("create call error: ", err?.message);
+        logger.error(`create call  error: ${err?.message}`);
     }
 }
 
@@ -49,7 +50,7 @@ export const getCallData= async (uuid:string): Promise<getCallDataType> => {
         const request: AxiosResponse<getCallDataType> = await Axios.get('/getCallData/'+uuid);
         return request?.data;
     }catch(err){
-        console.log("get call data error: ", err?.message);
+        logger.error("get call data  error", err?.message);
     }
 }
 
@@ -58,7 +59,7 @@ export const delCallVerif= async (uuid:string,hangupCause:string) => {
         const request: AxiosResponse= await Axios.post('/delCallVerif',{uuid,hangupCause});
         return request;
     }catch(err){
-        console.log("del call verif error: ", err?.message);
+        logger.error("del call verif  error",err?.message);
     }
 }
 
@@ -67,6 +68,6 @@ export const deduceFounds= async (data:Record<string,any>) => {
         const request:AxiosResponse = await Axios.post('/deduceFounds',{...data});
         return request;
     }catch(err){
-        console.log("deduce founds error: ", err?.message);
+        logger.error("deduce  founds  error",err?.message);
     }
 }

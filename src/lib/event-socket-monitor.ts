@@ -8,7 +8,7 @@ const events = [
   'CHANNEL_HANGUP',
   'CHANNEL_HANGUP_COMPLETE',
 ] as Parameters<FreeSwitchResponse['event_json']>;
-
+import { logger } from '../utils/logger';
 export type configParams = {
   host: string | undefined;
   port: any | undefined;
@@ -19,7 +19,7 @@ export const startJob = () => {
   connect()
     .then((connection: FreeSwitchResponse) => {
       // Subscribe to all FreeSWITCH events:
-      console.log('connected to ESL');
+       logger.info('connected to ESL');
       connection.event_json(...events);
       events.forEach((event) =>
         connection.on(event, (data) =>
@@ -27,8 +27,8 @@ export const startJob = () => {
         ),
       );
     })
-    .catch((error: unknown) => {
-      console.log('ERROR : ', error);
+    .catch((error: any) => {
+      logger.error(`freeswitch error: ${error?.message}`);
       // An error connecting to FreeSWITCH occurred!
     });
 };

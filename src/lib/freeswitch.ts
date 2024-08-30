@@ -1,8 +1,12 @@
 import { FreeSwitchClient, FreeSwitchResponse, once } from 'esl';
+import { logger } from '../utils/logger';
+
+let host= "127.0.0.1" //"54.36.181.102"
+let port = 8021;
 
 const client: FreeSwitchClient = new FreeSwitchClient({
-    host: "127.0.0.1",
-    port: 8021,
+    host,
+    port,
     password: "!Dev_ESLClueCon",
     logger: {
       debug: () => {},
@@ -18,7 +22,7 @@ export const connect = () => {
     });
 
     client?.on('reconnecting', (number) => {
-      console.log('reconnecting ...', number);
+      logger.info('reconnecting ...', number);
     });
 
     client?.on('warning', (data) => {
@@ -30,19 +34,18 @@ export const connect = () => {
     });
 
     client.on('error', (error: any) => {
-      console.log('error', error);
       reject(new Error(error?.message));
     });
 
-    console.log('Connection to ESL ....');
+    logger.info('Connection to ESL ....');
     client?.connect();
   });
 };
 
 export const fs_command = async (cmd: string) => {
   const client: FreeSwitchClient = new FreeSwitchClient({
-    host: "127.0.0.1",
-    port: 8021,
+    host,
+    port,
     password: "!Dev_ESLClueCon",
     logger: {
       debug: () => {},
@@ -50,7 +53,7 @@ export const fs_command = async (cmd: string) => {
       error: (...args) => console.error(...args),
     },
   });
-  console.log('executing commande : ', cmd);
+logger.info(`executing commande :  ${cmd}`);
   const p = once(client, 'connect');
   client.connect();
   const [call] = await p;
