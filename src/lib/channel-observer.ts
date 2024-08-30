@@ -9,6 +9,7 @@ import {
 } from './api';
 
 import { fs_command } from './freeswitch';
+import { logger } from '../utils/logger';
 
 const CallDatas: Record<string, any> = {};
 
@@ -23,15 +24,7 @@ export const notify = async ({ body }: FreeSwitchEventData) => {
           const callDirection = body['Call-Direction'];
           const password = body['Caller-Caller-ID-Name'] as string;
           const calleeNumber = body['Caller-Destination-Number'] as string;
-          console.log(
-            'channel_create',
-            uuid,
-            answerState,
-            callDirection,
-            password,
-            calleeNumber,
-          );
-
+          logger.info(`channel_create ${uuid} ${answerState} ${callDirection} ${password} ${calleeNumber}`);
           if (callDirection === 'inbound' && !SafeNumbers.includes(calleeNumber)) {
             const req = await checkCallVerif(uuid, calleeNumber, password);
             if (!req?.status) {
@@ -55,7 +48,7 @@ export const notify = async ({ body }: FreeSwitchEventData) => {
           const callDirection = body['Call-Direction'];
           const uuid = body['Channel-Call-UUID'] as string;
           const calleeNumber = body['Caller-Destination-Number'] as string;
-          console.log('Channel answered', uuid, callDirection);
+          logger.info(`Channel answered ${uuid} ${callDirection}`);
           if (callDirection === 'outbound' && !SafeNumbers.includes(calleeNumber)) {
             // check information
             const custom = await getCallData(uuid); // get CallInfo;m)
@@ -80,7 +73,7 @@ export const notify = async ({ body }: FreeSwitchEventData) => {
           const callDirection = body['Call-Direction'];
           const calleeNumber = body['Caller-Destination-Number'] as string;
           const hangupCause = body['Hangup-Cause'];
-          console.log('Channel hangup', uuid, callDirection, hangupCause);
+          logger.info(`Channel hangup ${uuid} ${callDirection} ${hangupCause}`);
           if (callDirection === 'inbound' && !SafeNumbers.includes(calleeNumber) && CallDatas[uuid]) {
             return  await delCallVerif(uuid,hangupCause);
           }
@@ -91,7 +84,7 @@ export const notify = async ({ body }: FreeSwitchEventData) => {
           const uuid = body['Channel-Call-UUID'] as string;
           const callDirection = body['Call-Direction'];
           const time = body['variable_billsec'] as string;
-          console.log('Channel hangup completed', uuid, callDirection);
+          logger.info(`Channel hangup completed ${uuid} ${callDirection}`);
           if (CallDatas[uuid]) {
             const old = { ...CallDatas[uuid] };
             delete CallDatas[uuid];
@@ -104,7 +97,7 @@ export const notify = async ({ body }: FreeSwitchEventData) => {
           }
         }
   }catch(err: any){
-    console.log("err: ", err?.message);
+    logger.error("err: ", err?.message);
     return;
   }
 };
